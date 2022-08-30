@@ -1,6 +1,7 @@
 
 const form=document.getElementById("login");
 const message=document.getElementById("message");
+moment().format("YYYYMMDD");                         
 form.addEventListener("submit", function(e) {   
     e.preventDefault();
     //console.log(e.target);
