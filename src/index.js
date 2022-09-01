@@ -24,6 +24,14 @@ import { baseUrl, credentials } from "./utils.js";
   await delayTime(5);
   await page.screenshot({ path: "prueba4.png" });
 
+  const tbody = await page.locator('div[class="table-body"]');
+  const data = await tbody.evaluate((div) =>
+    Array.from(div.querySelectorAll("span")).map((span) =>
+      span.innerText.trim()
+    )
+  );
+  console.log(data);
+
   // const allWeeks = await page.$$eval('div["class=table-body"]', (weeks) => {
   //   return weeks.map((week) => {
   //     const td1 = week.querySelector(`div:nth-child(1)`);
