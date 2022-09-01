@@ -14,9 +14,9 @@ import { baseUrl, credentials } from "./utils.js";
   await page.click('button[class="btn btn-primary login-btn"]');
   //await page.fill('input[name="password"]', credentials.password);
   // await page.click('input[name="submit"]');
-
   //await page.locator('input[name="submit"]').click();
   await page.screenshot({ path: "prueba1.png" });
+  await delayTime(6);
 
   await page.context().storageState({ path: "credentials.json" });
   await page.screenshot({ path: "prueba2.png" });
@@ -25,3 +25,11 @@ import { baseUrl, credentials } from "./utils.js";
   //await page.locator().
   await browser.close();
 })();
+
+function delayTime(second = 1) {
+  return new Promise((res, rej) => {
+    setTimeout(() => {
+      res(true);
+    }, second * 1000);
+  });
+}
