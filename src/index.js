@@ -17,19 +17,23 @@ import { baseUrl, credentials } from "./utils.js";
   await delayTime(15);
   await page.context().storageState({ path: "credentials.json" });
   await page.screenshot({ path: "prueba2.png" });
-  //await page.locator('td[class="Wday"]').click();
-  await page.click('input[class="Wdate ng-isolate-scope"]');
+  //await page.screenshot({ path: "prueba3.png" });
   await delayTime(4);
 
-  // TODO: ADD Function getWeeks
-  await getRow(page);
-
-  //await page.locator(`text=${date}`).click();
-  // await page.locator(".wday").locator("td");
-
-  await page.screenshot({ path: "prueba3.png" });
-  await delayTime(4);
+  await page.click('button[class="btn search-btn"]');
+  await delayTime(5);
   await page.screenshot({ path: "prueba4.png" });
+
+  // const allWeeks = await page.$$eval('div["class=table-body"]', (weeks) => {
+  //   return weeks.map((week) => {
+  //     const td1 = week.querySelector(`div:nth-child(1)`);
+  //     return {
+  //       td1: td1.innerText.trim(),
+  //     };
+  //   });
+  // });
+  // console.log(`${allWeeks.length} weeks found`);
+  // console.dir(allWeeks);
   await browser.close();
 })();
 
@@ -39,21 +43,4 @@ function delayTime(second = 1) {
       res(true);
     }, second * 1000);
   });
-}
-
-async function getRow(page) {
-  const data = [];
-  const allWeeks = await page.locator("tbody", (weeks) => {
-    return weeks.map((week) => {
-      const daysNum = [...Array(7).keys()].map((e) => e + 1);
-
-      daysNum.forEach((num) => {
-        data.push(week.querySelector(`td:nth-child(${num})`));
-      });
-    });
-  });
-  console.log(`${allWeeks.length} weeks found`);
-  console.dir(allWeeks);
-  console.dir(data);
-  return [allWeeks];
 }
