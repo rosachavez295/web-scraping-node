@@ -1,5 +1,10 @@
-export const baseUrl = "http://127.0.0.1:5500/paginaCamaras.html";
 export const credentials = {
-  username: "admin",
-  password: "admin",
+  username: "user",
+  password: "User123!",
 };
+
+export const URLs = {
+  login:
+    "http://192.168.1.17/doc/page/login.asp?_1594146088492&page=application",
+};
+export const baseUrl = URLs.login;
