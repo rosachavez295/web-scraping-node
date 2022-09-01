@@ -8,4 +8,5 @@ export default function getPreviousDate() {
     separador +
     String(date.getDate() - 1).padStart(2, "0");
   console.log(output);
+  return output;
 }
