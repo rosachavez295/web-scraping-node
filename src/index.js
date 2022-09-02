@@ -35,10 +35,9 @@ import { baseUrl, credentials } from "./utils.js";
 
 async function MockData(data) {
   const result = [];
-  // console.log(">>>", data);
   data.forEach((item, index, arr) => {
     if (index % 2 === 0) {
-      const counter = arr[index - 1];
+      const counter = arr[index + 1];
       const hour = arr[index];
       result.push({ Hora: hour, Contador: counter });
     }
