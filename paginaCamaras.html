@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html
+  style="
+    overflow: hidden;
+    height: 100%;
+    border: medium none;
+    padding: 0px;
+    margin: 0px;
+  "
+>
+  <head>
+   
+    <title>Application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+    <meta http-equiv="Expires" content="0" />
+    <script>
+      document.write(
+        "<link type='text/css' href='../ui/css/ui.css?version=" +
+          new Date().getTime() +
+          "' rel='stylesheet' />"
+      );
+    </script>
+    <link type="text/css" href="Application_files/ui.css" rel="stylesheet" />
+  </head>
+  <body
+    class="ui-layout-container"
+    style="
+      overflow: hidden;
+      width: auto;
+      height: auto;
+      margin: 0px;
+      position: absolute;
+      inset: 0px;
+    "
+  >
+    <div style="display: none; position: absolute" class="">
+      <div class="aui_outer">
+        <table class="aui_border">
+          <tbody>
+            <tr>
+              <td class="aui_nw"></td>
+              <td class="aui_n"></td>
+              <td class="aui_ne"></td>
+            </tr>
+            <tr>
+              <td class="aui_w"></td>
+              <td class="aui_c">
+                <div class="aui_inner">
+                  <table class="aui_dialog">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="aui_header">
+                          <div class="aui_titleBar">
+                            <div class="aui_title" style="cursor: auto"></div>
+                            <a
+                              class="aui_close"
+                              href="javascript:/*artDialog*/;"
+                              style="display: none"
+                              >×</a
+                            >
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="aui_icon" style="display: none">
+                          <div
+                            class="aui_iconBg"
+                            style="
+                              background: rgba(0, 0, 0, 0) none repeat scroll 0%
+                                0%;
+                            "
+                          ></div>
+                        </td>
+                        <td
+                          class="aui_main"
+                          style="width: 300px; height: 150px"
+                        >
+                          <div class="aui_content" style="padding: 5px"></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="aui_footer">
+                          <div class="aui_buttons" style="display: none"></div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+              <td class="aui_e"></td>
+            </tr>
+            <tr>
+              <td class="aui_sw" style=""></td>
+              <td class="aui_s"></td>
+              <td class="aui_se" style="cursor: auto"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <iframe
+        src="Application_files/a.htm"
+        style="
+          position: absolute;
+          z-index: -1;
+          left: 0px;
+          top: 0px;
+          border: 0px none;
+          width: 302px;
+          height: 192px;
+        "
+        frameborder="0"
+      ></iframe>
+    </div>
+    <div
+      class="layout-north ui-layout-pane ui-layout-pane-north ng-scope"
+      id="header"
+      ng-controller="headerController"
+      style="
+        position: absolute;
+        margin: 0px;
+        inset: 0px 0px auto;
+        width: auto;
+        z-index: 0;
+        height: 40px;
+        display: block;
+        visibility: visible;
+      "
+    >
+      <!-- ngInclude: 'common/header.asp' -->
+      <div
+        class="header ng-scope"
+        ng-include="'common/header.asp'"
+        onload="headerLoaded()"
+      >
+        <div class="logo ng-scope"></div>
+        <ul id="nav" class="nav ng-scope">
+          <li>
+            <a
+              ng-bind="oLan.preview"
+              ng-click="jumpTo('preview')"
+              class="ng-binding"
+              >Live View</a
+            >
+          </li>
+          <li ng-show="bSupportPlayback" class="">
+            <a
+              ng-bind="oLan.playback"
+              ng-click="jumpTo('playback')"
+              class="ng-binding"
+              >Playback</a
+            >
+          </li>
+          <li ng-show="bSupportPicture" class="">
+            <a
+              ng-bind="oLan.picture"
+              ng-click="jumpTo('download')"
+              class="ng-binding"
+              >Picture</a
+            >
+          </li>
+          <li ng-show="bSupportApplication" class="active">
+            <a
+              ng-bind="oLan.application"
+              ng-click="jumpTo('application')"
+              class="ng-binding"
+              >Application</a
+            >
+          </li>
+          <li>
+            <a
+              ng-bind="oLan.config"
+              ng-click="jumpTo('config')"
+              class="ng-binding"
+              >Configuration</a
+            >
+          </li>
+        </ul>
+        <div class="header-r ng-scope">
+          <div class="user">
+            <div class="icon"></div>
+            <label ng-bind="username" class="ng-binding">user</label>
+          </div>
+          <div class="help" ng-show="bSupportHelp" ng-click="help()">
+            <div class="icon"></div>
+            <label class="pointer ng-binding" ng-bind="oLan.help">Help</label>
+          </div>
+          <div class="exit" ng-click="exit()">
+            <div class="icon"></div>
+            <label class="pointer ng-binding" ng-bind="oLan.logout"
+              >Logout</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="download layout-center application ui-layout-pane ui-layout-pane-center ui-layout-pane-hover ui-layout-pane-center-hover ui-layout-pane-open-hover ui-layout-pane-center-open-hover"
+      style="
+        position: absolute;
+        margin: 0px;
+        inset: 40px 0px 30px;
+        height: 298px;
+        width: 1348px;
+        z-index: 0;
+        display: block;
+        visibility: visible;
+      "
+    >
+      <div
+        id="tabs"
+        class="tabs-1 tabs-app ui-tabs ui-widget ui-widget-content ui-corner-all"
+      >
+        <ul
+          id="application"
+          ng-controller="applicationController"
+          class="ng-scope ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all"
+          role="tablist"
+        >
+          <!-- ngIf: bSupportFaceCaptureCount -->
+          <!-- ngIf: bSupportPeopleCount -->
+          <li
+            module="peopleStatistic"
+            ng-if="bSupportPeopleCount"
+            class="ng-scope ui-state-default ui-corner-top ui-tabs-active ui-state-active"
+            role="tab"
+            tabindex="0"
+            aria-controls="ui-tabs-1"
+            aria-labelledby="ui-id-1"
+            aria-selected="true"
+          >
+            <a
+              href="http://192.168.1.17/doc/page/application/peopleStatistic.asp"
+              hidefocus=""
+              ng-bind="oLan.peopleCountName"
+              class="ng-binding ui-tabs-anchor"
+              role="presentation"
+              tabindex="-1"
+              id="ui-id-1"
+              >People Counting Statistics</a
+            >
+          </li>
+          <!-- end ngIf: bSupportPeopleCount -->
+          <!-- ngIf: bSupportHeatmap -->
+        </ul>
+        <div
+          id="ui-tabs-1"
+          class="ui-tabs-panel ui-widget-content ui-corner-bottom"
+          aria-live="polite"
+          aria-labelledby="ui-id-1"
+          role="tabpanel"
+          aria-expanded="true"
+          aria-hidden="false"
+        >
+          <div
+            id="peopleStatistic"
+            ng-controller="peopleStatisticController"
+            class="peopleStat ui-layout-container ng-scope"
+            style="height: 278px; overflow: hidden; position: relative"
+          >
+            <div
+              class="layout-west-inner ui-layout-pane ui-layout-pane-west"
+              style="
+                position: absolute;
+                margin: 0px;
+                inset: 0px auto 0px 0px;
+                height: 276px;
+                z-index: 0;
+                width: 201px;
+                display: block;
+                visibility: visible;
+              "
+            >
+              <div class="header">
+                <label ng-bind="oLan.searchConditions" class="ng-binding"
+                  >Search Conditions</label
+                >
+              </div>
+              <div class="west-content">
+                <div
+                  ng-show="iChannelNum &gt; 1"
+                  class="ng-hide"
+                  style="display: none"
+                >
+                  <div
+                    class="file-type ng-binding ellipsis"
+                    ng-bind="oLan.channelNo"
+                    title="Channel No."
+                  >
+                    Channel No.
+                  </div>
+                  <div
+                    channel=""
+                    analog="oAnalogId"
+                    digital="oDigital"
+                    analog-num="iAnalogChannelNum"
+                    channel-id="channelInfo.iChannelId"
+                    lan="oLan"
+                    class="ng-isolate-scope"
+                  >
+                    <select
+                      class="select ng-scope ng-pristine ng-valid"
+                      ng-model="szChannelId"
+                      ng-options="oChannel.value as oChannel.name for oChannel in aChannel"
+                      disabled="disabled"
+                    >
+                      <option value="0" selected="selected">Camera1</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <div class="file-type">
+                    <label ng-bind="oLan.reportType" class="ng-binding"
+                      >Report Type</label
+                    >
+                  </div>
+                  <div>
+                    <select
+                      class="select ng-pristine ng-valid"
+                      ng-model="oParams.szReportType"
+                    >
+                      <option
+                        value="daily"
+                        ng-bind="oLan.dailyReport"
+                        class="ng-binding"
+                        selected="selected"
+                      >
+                        Daily Report
+                      </option>
+                      <option
+                        value="weekly"
+                        ng-bind="oLan.weeklyReport"
+                        class="ng-binding"
+                      >
+                        Weekly Report
+                      </option>
+                      <option
+                        value="monthly"
+                        ng-bind="oLan.monthlyReport"
+                        class="ng-binding"
+                      >
+                        Monthly Report
+                      </option>
+                      <option
+                        value="yearly"
+                        ng-bind="oLan.annualReport"
+                        class="ng-binding"
+                      >
+                        Annual Report
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <div class="file-type">
+                    <label ng-bind="oLan.countType" class="ng-binding"
+                      >Statistics Type</label
+                    >
+                  </div>
+                  <div>
+                    <select
+                      class="select ng-pristine ng-valid"
+                      ng-model="oParams.szCountType"
+                    >
+                      <option
+                        value="enterCount"
+                        ng-bind="oLan.enterCount"
+                        class="ng-binding"
+                        selected="selected"
+                      >
+                        People Entered
+                      </option>
+                      <option
+                        value="exitCount"
+                        ng-bind="oLan.exitCount"
+                        class="ng-binding"
+                      >
+                        People Exited
+                      </option>
+                      <option
+                        value="peoplePassingCount"
+                        ng-bind="oLan.peoplePassingCount"
+                        class="ng-binding"
+                      >
+                        People Passing By
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <div class="search-time">
+                    <label ng-bind="oLan.startTime" class="ng-binding"
+                      >Start Time</label
+                    >
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      class="Wdate ng-isolate-scope"
+                      dp-model="oParams.szCountTime"
+                      date=""
+                      mode="1"
+                      readonly="readonly"
+                      value="2022-08-27"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="trigger-item ng-hide"
+                  ng-show="oCapabilities.bSupportTriggerPeopleCountDataSearch "
+                >
+                  <input
+                    ng-model="oParams.bTriggerPeopleCountingData"
+                    type="checkbox"
+                    class="checkbox ng-pristine ng-valid"
+                  />
+                  <label
+                    ng-bind="oLan.triggerPeopleCountingData"
+                    class="ng-binding"
+                    >Data Per Stop</label
+                  >
+                </div>
+                <button
+                  type="button"
+                  class="btn search-btn"
+                  ng-click="doSearch()"
+                >
+                  <span class="ng-binding" ng-bind="oLan.count">Counting</span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="layout-center-inner ui-layout-pane ui-layout-pane-center ui-layout-container ui-layout-pane-hover ui-layout-pane-center-hover ui-layout-pane-open-hover ui-layout-pane-center-open-hover"
+              style="
+                position: absolute;
+                margin: 0px;
+                inset: 0px 0px 0px 202px;
+                height: 277px;
+                width: 1124px;
+                z-index: 0;
+                display: block;
+                visibility: visible;
+                overflow: hidden;
+              "
+            >
+              <div
+                class="layout-north-inner-inner ui-layout-pane ui-layout-pane-north"
+                style="
+                  position: absolute;
+                  margin: 0px;
+                  inset: 0px 0px auto;
+                  width: auto;
+                  z-index: 0;
+                  height: 26px;
+                  display: block;
+                  visibility: visible;
+                "
+              >
+                <div class="header text-align">
+                  <label class="left ng-binding" ng-bind="oLan.countResult"
+                    >Statistics Results</label
+                  >
+                  <div class="chartType">
+                    <span
+                      class="headspan ng-binding active"
+                      ng-bind="oLan.list"
+                      ng-click="changeChartType(0)"
+                      ng-class="{true:'headspan active', false:'headspan'}[oParams.szChartType == 0]"
+                      >Table</span
+                    >
+                    <span
+                      class="headspan ng-binding"
+                      ng-bind="oLan.histogram"
+                      ng-click="changeChartType(1)"
+                      ng-class="{true:'headspan active', false:'headspan'}[oParams.szChartType == 1]"
+                      >Bar Chart</span
+                    >
+                    <span
+                      class="headspan ng-binding"
+                      ng-bind="oLan.lineChart"
+                      ng-click="changeChartType(2)"
+                      ng-class="{true:'headspan active', false:'headspan'}[oParams.szChartType == 2]"
+                      >Line Chart</span
+                    >
+                  </div>
+                  <div
+                    class="right"
+                    ng-class="{true:'', false:'hidden'}[oParams.bShowExport]"
+                  >
+                    <button
+                      type="button"
+                      class="btn ng-binding width70 ellipsis"
+                      ng-click="doExport()"
+                      ng-bind="oLan.export"
+                      title="Export"
+                    >
+                      Export
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="layout-center-inner-inner ui-layout-pane ui-layout-pane-center ui-layout-pane-hover ui-layout-pane-center-hover ui-layout-pane-open-hover ui-layout-pane-center-open-hover"
+                ng-class="{'inner-border': oParams.szChartType != 0}"
+                style="
+                  position: absolute;
+                  margin: 0px;
+                  inset: 26px 0px 0px;
+                  height: 251px;
+                  width: 1124px;
+                  z-index: 0;
+                  display: block;
+                  visibility: visible;
+                "
+              >   
+              <!-- TODO:clase donde tengo que sacar el id para el scraping -->
+                <div
+                  id="table"
+                  class="inner-body"
+                  ng-show="oParams.szChartType == 0"
+                >
+                  <div class="table">
+                    <div class="table-header">
+                      <span class="table-cell" style="width: 441px"
+                        ><label
+                          id="ListHeadState"
+                          ng-bind="oLan.ListHeadTime"
+                          class="ng-scope ng-binding"
+                          >Statistics Time(Hour)</label
+                        ></span
+                      ><span class="table-cell" style="width: 661px"
+                        ><label
+                          id="ListHeadStatType"
+                          ng-bind="oLan.ListHeadStatType"
+                          class="ng-scope ng-binding"
+                          >People Entered</label
+                        ></span
+                      >
+                    </div>
+                    <div class="table-body" style="height: 189px">
+                      <div class="table-row table-even">
+                        <span class="table-cell" style="width: 441px"
+                          >00:00-01:00</span
+                        ><span class="table-cell" style="width: 661px">0</span>
+                      </div>
+                      <div class="table-row table-odd">
+                        <span class="table-cell" style="width: 441px"
+                          >01:00-02:00</span
+                        ><span class="table-cell" style="width: 661px">0</span>
+                      </div>
+                      <div class="table-row table-even">
+                        <span class="table-cell" style="width: 441px"
+                          >02:00-03:00</span
+                        ><span class="table-cell" style="width: 661px">0</span>
+                      </div>
+                      <div class="table-row table-odd">
+                        <span class="table-cell" style="width: 441px"
+                          >03:00-04:00</span
+                        ><span class="table-cell" style="width: 661px">0</span>
+                      </div>
+                      <div class="table-row table-even">
+                        <span class="table-cell" style="width: 441px"
+                          >04:00-05:00</span
+                        ><span class="table-cell" style="width: 661px">0</span>
+                      </div>
+                      <div class="table-row table-odd">
+                        <span class="table-cell" style="width: 441px"
+                          >05:00-06:00</span
+                        ><span class="table-cell" style="width: 661px">0</span>
+                      </div>
+                      <div class="table-row table-even">
+                        <span class="table-cell" style="width: 441px"
+                          >06:00-07:00</span
+                        ><span class="table-cell" style="width: 661px">0</span>
+                      </div>
+                      <div class="table-row table-odd">
+                        <span class="table-cell" style="width: 441px"
+                          >07:00-08:00</span
+                        ><span class="table-cell" style="width: 661px">0</span>
+                      </div>
+                      <!-- TODO:PARA LA BUSQUEDA DE HORARIO -->
+                      <div class="table-row table-even">
+                        <span class="table-cell" style="width: 441px"
+                          >08:00-09:00</span
+                        <!-- TODO:CONTADOR SACAR -->
+                        <span class="table-cell" style="width: 661px">4</span>
+                      </div>
+                      <div class="table-row table-odd">
+                        <span class="table-cell" style="width: 441px"
+                          >09:00-10:00</span
+                        ><span class="table-cell" style="width: 661px">20</span>
+                      </div>
+                      <div class="table-row table-even table-enter">
+                        <span class="table-cell" style="width: 441px"
+                          >10:00-11:00</span
+                        ><span class="table-cell" style="width: 661px">26</span>
+                      </div>
+                      <div class="table-row table-odd">
+                        <span class="table-cell" style="width: 441px"
+                          >11:00-12:00</span
+                        ><span class="table-cell" style="width: 661px">34</span>
+                      </div>
+                      <div class="table-row table-even">
+                        <span class="table-cell" style="width: 441px"
+                          >12:00-13:00</span
+                        ><span class="table-cell" style="width: 661px">23</span>
+                      </div>
+                      <div class="table-row table-odd">
+                        <span class="table-cell" style="width: 441px"
+                          >13:00-14:00</span
+                        ><span class="table-cell" style="width: 661px">22</span>
+                      </div>
+                      <div class="table-row table-even">
+                        <span class="table-cell" style="width: 441px"
+                          >14:00-15:00</span
+                        ><span class="table-cell" style="width: 661px">28</span>
+                      </div>
+                      <div class="table-row table-odd">
+                        <span class="table-cell" style="width: 441px"
+                          >15:00-16:00</span
+                        ><span class="table-cell" style="width: 661px">22</span>
+                      </div>
+                      <div class="table-row table-even">
+                        <span class="table-cell" style="width: 441px"
+                          >16:00-17:00</span
+                        ><span class="table-cell" style="width: 661px">33</span>
+                      </div>
+                      <div class="table-row table-odd">
+                        <span class="table-cell" style="width: 441px"
+                          >17:00-18:00</span
+                        ><span class="table-cell" style="width: 661px">34</span>
+                      </div>
+                      <div class="table-row table-even">
+                        <span class="table-cell" style="width: 441px"
+                          >18:00-19:00</span
+                        ><span class="table-cell" style="width: 661px">20</span>
+                      </div>
+                      <div class="table-row table-odd">
+                        <span class="table-cell" style="width: 441px"
+                          >19:00-20:00</span
+                        ><span class="table-cell" style="width: 661px">24</span>
+                      </div>
+                      <div class="table-row table-even">
+                        <span class="table-cell" style="width: 441px"
+                          >20:00-21:00</span
+                        ><span class="table-cell" style="width: 661px">4</span>
+                      </div>
+                      <div class="table-row table-odd">
+                        <span class="table-cell" style="width: 441px"
+                          >21:00-22:00</span
+                        ><span class="table-cell" style="width: 661px">4</span>
+                      </div>
+                      <div class="table-row table-even">
+                        <span class="table-cell" style="width: 441px"
+                          >22:00-23:00</span
+                        ><span class="table-cell" style="width: 661px">0</span>
+                      </div>
+                      <div class="table-row table-odd">
+                        <span class="table-cell" style="width: 441px"
+                          >23:00-24:00</span
+                        ><span class="table-cell" style="width: 661px">0</span>
+                      </div>
+                    </div>
+                    <div
+                      class="table-remain"
+                      style="display: none; height: 189px"
+                    >
+                      <span
+                        class="table-cell"
+                        style="width: 441px; height: 189px"
+                        >&nbsp;</span
+                      ><span
+                        class="table-cell"
+                        style="width: 661px; height: 189px"
+                        >&nbsp;</span
+                      >
+                    </div>
+                    <div class="table-footer" align="right">
+                      <label class="table-page-label">Total 24 Items</label
+                      ><button class="btn" disabled="disabled">
+                        <label>&lt;&lt;</label></button
+                      ><button class="btn" disabled="disabled">
+                        <label>&lt;</label></button
+                      ><label class="table-page-label">1/1</label
+                      ><button class="btn" disabled="disabled">
+                        <label>&gt;</label></button
+                      ><button class="btn" disabled="disabled">
+                        <label>&gt;&gt;</label>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="table-body ng-hide"
+                  id="chart"
+                  ng-show="oParams.szChartType != 0"
+                ></div>
+              </div>
+              <div
+                id=""
+                style="
+                  position: absolute;
+                  padding: 0px;
+                  margin: 0px;
+                  font-size: 1px;
+                  text-align: left;
+                  overflow: hidden;
+                  z-index: 2;
+                  top: 26px;
+                  cursor: default;
+                  display: none;
+                "
+                class="ui-layout-resizer ui-layout-resizer-north ui-layout-resizer-open ui-layout-resizer-north-open"
+              >
+                <div
+                  id=""
+                  style="
+                    position: absolute;
+                    display: block;
+                    padding: 0px;
+                    margin: 0px;
+                    overflow: hidden;
+                    text-align: center;
+                    font-size: 1px;
+                    cursor: pointer;
+                    z-index: 1;
+                    visibility: visible;
+                  "
+                  class="ui-layout-toggler ui-layout-toggler-north ui-layout-toggler-open ui-layout-toggler-north-open"
+                  title="Close"
+                ></div>
+              </div>
+            </div>
+            <div
+              id=""
+              style="
+                position: absolute;
+                padding: 0px;
+                margin: 0px;
+                font-size: 1px;
+                text-align: left;
+                overflow: hidden;
+                z-index: 2;
+                left: 202px;
+                cursor: default;
+                display: none;
+              "
+              class="ui-layout-resizer ui-layout-resizer-west ui-layout-resizer-open ui-layout-resizer-west-open"
+            >
+              <div
+                id=""
+                style="
+                  position: absolute;
+                  display: block;
+                  padding: 0px;
+                  margin: 0px;
+                  overflow: hidden;
+                  text-align: center;
+                  font-size: 1px;
+                  cursor: pointer;
+                  z-index: 1;
+                  visibility: visible;
+                "
+                class="ui-layout-toggler ui-layout-toggler-west ui-layout-toggler-open ui-layout-toggler-west-open"
+                title="Close"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="main_plugin" class="no-window">
+      <table width="100%" height="100%">
+        <tbody>
+          <tr>
+            <td class="txtTip">
+              <label class="pluginLink"
+                >Please click here to download and install the plug-in. Close
+                the browser when installing the plug-in.</label
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="layout-south ui-layout-pane ui-layout-pane-south"
+      style="
+        position: absolute;
+        margin: 0px;
+        inset: auto 0px 0px;
+        width: auto;
+        z-index: 0;
+        height: 30px;
+        display: block;
+        visibility: visible;
+      "
+    >
+      <div class="footer" id="footer">
+        ©Hikvision Digital Technology Co., Ltd. All Rights Reserved.
+      </div>
+    </div>
+
+    <script id="seajsnode" src="Application_files/sea-2.1.1.min.js"></script>
+    <script>
+      document.write(
+        "<script src='../script/lib/seajs/config/sea-config.js?version=" +
+          new Date().getTime() +
+          "' ></scr" +
+          "ipt>"
+      );
+      document.write(
+        "<script src='../script/lib/jquery/My97DatePicker/WdatePicker.js?version=" +
+          new Date().getTime() +
+          "' ></scr" +
+          "ipt>"
+      );
+    </script>
+    <script src="Application_files/sea-config.js"></script>
+    <script src="Application_files/WdatePicker.js"></script>
+    <div
+      id=""
+      style="
+        position: absolute;
+        padding: 0px;
+        margin: 0px;
+        font-size: 1px;
+        text-align: left;
+        overflow: hidden;
+        z-index: 2;
+        top: 40px;
+        cursor: default;
+        display: none;
+      "
+      class="ui-layout-resizer ui-layout-resizer-north ui-layout-resizer-open ui-layout-resizer-north-open"
+    >
+      <div
+        id=""
+        style="
+          position: absolute;
+          display: block;
+          padding: 0px;
+          margin: 0px;
+          overflow: hidden;
+          text-align: center;
+          font-size: 1px;
+          cursor: pointer;
+          z-index: 1;
+          visibility: visible;
+        "
+        class="ui-layout-toggler ui-layout-toggler-north ui-layout-toggler-open ui-layout-toggler-north-open"
+        title="Close"
+      ></div>
+    </div>
+    <div
+      id=""
+      style="
+        position: absolute;
+        padding: 0px;
+        margin: 0px;
+        font-size: 1px;
+        text-align: left;
+        overflow: hidden;
+        z-index: 2;
+        bottom: 30px;
+        cursor: default;
+        display: none;
+      "
+      class="ui-layout-resizer ui-layout-resizer-south ui-layout-resizer-open ui-layout-resizer-south-open"
+    >
+      <div
+        id=""
+        style="
+          position: absolute;
+          display: block;
+          padding: 0px;
+          margin: 0px;
+          overflow: hidden;
+          text-align: center;
+          font-size: 1px;
+          cursor: pointer;
+          z-index: 1;
+          visibility: visible;
+        "
+        class="ui-layout-toggler ui-layout-toggler-south ui-layout-toggler-open ui-layout-toggler-south-open"
+        title="Close"
+      ></div>
+    </div>
+    <div
+      style="
+        position: absolute;
+        top: 38.4px;
+        left: 21.4px;
+        z-index: 100002;
+        display: none;
+      "
+    >
+      <iframe
+        style="width: 200px; height: 220px"
+        src="Application_files/My97DatePicker.htm"
+        border="0"
+        scrolling="no"
+        tabindex="-1"
+        frameborder="0"
+      ></iframe>
+    </div>
+    <div style="display: none">
+      <div
+        style="
+          height: 100%;
+          background: rgb(0, 0, 0) none repeat scroll 0% 0%;
+          opacity: 0.7;
+        "
+      ></div>
+    </div>
+  </body>
+</html>
