@@ -1,6 +1,6 @@
-import getBrowser from "./getBrowser.js";
+import getBrowser from "../src/getBrowser.js";
 import getPreviousDate from "./getPreviousDate.js";
-import { baseUrl, credentials } from "./utils.js";
+import { baseUrl, credentials } from "../src/utils.js";
 
 (async () => {
   const [page, browser] = await getBrowser();

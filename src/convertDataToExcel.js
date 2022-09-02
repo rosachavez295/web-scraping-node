@@ -1,0 +1,24 @@
+import * as XLSX from "xlsx";
+import getCurrentDate from "./getCurrentDate.js";
+
+export default function convertDataToExcel(data, sucId) {
+  return new Promise((res, rej) => {
+    try {
+      const currentDate = getCurrentDate();
+      const fileName = currentDate + "_" + "suc" + "-" + sucId + ".xlsx";
+      const sheetName = "Sucursal-" + sucId;
+      const worksheet = XLSX.utils.json_to_sheet(data);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+      XLSX.writeFile(workbook, "./sheets/" + fileName);
+      res(true);
+    } catch (err) {
+      rej(err);
+    }
+  });
+}
+// (async () => {
+//   const db = [...Array(20).keys()].map((e) => ({ id: e, title: "title-" + e }));
+
+//   await convertDataToExcel(db, 1);
+// })();

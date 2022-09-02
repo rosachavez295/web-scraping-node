@@ -1,3 +1,4 @@
+import convertDataToExcel from "./convertDataToExcel.js";
 import getBrowser from "./getBrowser.js";
 import { baseUrl, credentials } from "./utils.js";
 
@@ -24,10 +25,26 @@ import { baseUrl, credentials } from "./utils.js";
       span.innerText.trim()
     )
   );
+  const result = await MockData(data);
+  await convertDataToExcel(result);
+
   console.log(data);
 
   await browser.close();
 })();
+
+async function MockData(data) {
+  const result = [];
+
+  data.forEach((item, index, arr) => {
+    if (index % 2 === 0) {
+      const hour = arr[item - 1];
+      const counter = arr[item];
+      result.push({ Hora: hour, Contador: counter });
+    }
+  });
+  return result;
+}
 
 function delayTime(second = 1) {
   return new Promise((res, rej) => {
