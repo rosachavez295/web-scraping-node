@@ -26,7 +26,7 @@ import { baseUrl, credentials } from "./utils.js";
     )
   );
   const result = await MockData(data);
-  await convertDataToExcel(result);
+  await convertDataToExcel(result, 1);
 
   console.log(data);
 
