@@ -6,11 +6,12 @@ export default function convertDataToExcel(data, sucId) {
     try {
       const currentDate = getCurrentDate();
       const fileName = currentDate + "_" + "suc" + "-" + sucId + ".xlsx";
+      const pathFileName = `./sheets/${fileName}`;
       const sheetName = "Sucursal-" + sucId;
       const worksheet = XLSX.utils.json_to_sheet(data);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
-      XLSX.writeFile(workbook, "./sheets/" + fileName);
+      XLSX.writeFile(workbook, pathFileName);
       res(true);
     } catch (err) {
       rej(err);
