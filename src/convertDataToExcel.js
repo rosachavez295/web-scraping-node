@@ -8,8 +8,8 @@ export default function convertDataToExcel(data, sucId) {
       const fileName = currentDate + "_" + "suc" + "-" + sucId + ".xlsx";
       const pathFileName = `./sheets/${fileName}`;
       const sheetName = "Sucursal-" + sucId;
-      const worksheet = XLSX.utils.json_to_sheet(data);
-      const workbook = XLSX.utils.book_new();
+      const worksheet = XLS.utils.json_to_sheet(data);
+      const workbook = XLS.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
       XLSX.writeFile(workbook, pathFileName);
       res(true);
