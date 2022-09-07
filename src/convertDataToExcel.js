@@ -5,7 +5,7 @@ export default function convertDataToExcel(data, sucId) {
   return new Promise((res, rej) => {
     try {
       const currentDate = getCurrentDate();
-      const fileName = currentDate + "_" + "suc" + "-" + sucId + ".xlsx";
+      const fileName = currentDate + "_" + "suc" + "-" + sucId + ".xls";
       const pathFileName = `./sheets/${fileName}`;
       const sheetName = "Sucursal-" + sucId;
       const worksheet = XLSX.utils.json_to_sheet(data);
