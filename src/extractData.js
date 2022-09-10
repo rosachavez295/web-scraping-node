@@ -1,4 +1,4 @@
-import convertDataToExcel from "./convertDataToExcel.js";
+import convertDataToText from "./convertDataToText.js";
 import getBrowser from "./getBrowser.js";
 import { credentials } from "./utils.js";
 
@@ -20,21 +20,22 @@ export default async function extractData(sucId, url) {
     )
   );
   const result = await MockData(data);
-  await convertDataToExcel(result, sucId);
+  await convertDataToText(result, sucId);
   await browser.close();
   return true;
 }
 
 async function MockData(data) {
-  const result = [];
+  const result = ["Hora;Contador"];
   data.forEach((item, index, arr) => {
     if (index % 2 === 0) {
       const counter = arr[index + 1];
       const hour = arr[index];
-      result.push({ Hora: hour, Contador: counter });
+      const item = `${hour};${counter}`;
+      result.push(item);
     }
   });
-  return result;
+  return result.join("\n");
 }
 
 function delayTime(second = 1) {
